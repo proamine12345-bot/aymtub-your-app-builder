@@ -21,9 +21,8 @@ export const Route = createFileRoute("/chat/$projectId")({
       { property: "og:description", content: "تابع مراحل بناء مشروع Android خطوة بخطوة." },
     ],
   }),
-  validateSearch: (search: Record<string, unknown>) => ({
-    run: typeof search['run'] === "string" ? (search['run'] as string) : undefined,
-  }),
+  validateSearch: (search: Record<string, unknown>): { run?: string } =>
+    typeof search['run'] === "string" ? { run: search['run'] as string } : {},
   component: () => (
     <Guard>
       <ChatScreen />
