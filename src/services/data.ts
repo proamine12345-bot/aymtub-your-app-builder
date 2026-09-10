@@ -90,7 +90,7 @@ export const chatService = {
     const user_id = await requireUserId();
     const { data, error } = await supabase
       .from("messages")
-      .insert({ project_id: projectId, user_id, role, content, meta })
+      .insert({ project_id: projectId, user_id, role, content, meta: meta as never })
       .select("*")
       .single();
     if (error) throw error;
@@ -98,11 +98,11 @@ export const chatService = {
   },
 
   async updateMeta(id: string, meta: MessageMeta, content?: string): Promise<void> {
-    const patch: Record<string, unknown> = { meta };
-    if (content !== undefined) patch['content'] = content;
+    const patch = { meta: meta as never, ...(content !== undefined ? { content } : {}) };
     const { error } = await supabase.from("messages").update(patch).eq("id", id);
     if (error) throw error;
   },
+
 };
 
 export const fileService = {
