@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as FuthunRouteImport } from './routes/futhun'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ChatProjectIdRouteImport } from './routes/chat.$projectId'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FuthunRoute = FuthunRouteImport.update({
+  id: '/futhun',
+  path: '/futhun',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRoute = HomeRouteImport.update({
@@ -44,6 +50,7 @@ const ChatProjectIdRoute = ChatProjectIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/futhun': typeof FuthunRoute
   '/home': typeof HomeRoute
   '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/futhun': typeof FuthunRoute
   '/home': typeof HomeRoute
   '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
@@ -59,21 +67,31 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/futhun': typeof FuthunRoute
   '/home': typeof HomeRoute
   '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/home' | '/projects' | '/chat/$projectId'
+  fullPaths:
+    '/' | '/auth' | '/futhun' | '/home' | '/projects' | '/chat/$projectId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/home' | '/projects' | '/chat/$projectId'
-  id: '__root__' | '/' | '/auth' | '/home' | '/projects' | '/chat/$projectId'
+  to: '/' | '/auth' | '/futhun' | '/home' | '/projects' | '/chat/$projectId'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/futhun'
+    | '/home'
+    | '/projects'
+    | '/chat/$projectId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  FuthunRoute: typeof FuthunRoute
   HomeRoute: typeof HomeRoute
   ProjectsRoute: typeof ProjectsRoute
   ChatProjectIdRoute: typeof ChatProjectIdRoute
@@ -93,6 +111,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/futhun': {
+      id: '/futhun'
+      path: '/futhun'
+      fullPath: '/futhun'
+      preLoaderRoute: typeof FuthunRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home': {
@@ -122,6 +147,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  FuthunRoute: FuthunRoute,
   HomeRoute: HomeRoute,
   ProjectsRoute: ProjectsRoute,
   ChatProjectIdRoute: ChatProjectIdRoute,
