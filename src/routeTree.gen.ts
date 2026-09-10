@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as HomeRouteImport } from './routes/home'
+import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ChatProjectIdRouteImport } from './routes/chat.$projectId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const HomeRoute = HomeRouteImport.update({
   path: '/home',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ChatProjectIdRoute = ChatProjectIdRouteImport.update({
   id: '/chat/$projectId',
   path: '/chat/$projectId',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/home': typeof HomeRoute
+  '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/home': typeof HomeRoute
+  '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/home': typeof HomeRoute
+  '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/home' | '/chat/$projectId'
+  fullPaths: '/' | '/auth' | '/home' | '/projects' | '/chat/$projectId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/home' | '/chat/$projectId'
-  id: '__root__' | '/' | '/auth' | '/home' | '/chat/$projectId'
+  to: '/' | '/auth' | '/home' | '/projects' | '/chat/$projectId'
+  id: '__root__' | '/' | '/auth' | '/home' | '/projects' | '/chat/$projectId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
   HomeRoute: typeof HomeRoute
+  ProjectsRoute: typeof ProjectsRoute
   ChatProjectIdRoute: typeof ChatProjectIdRoute
 }
 
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/chat/$projectId': {
       id: '/chat/$projectId'
       path: '/chat/$projectId'
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
   HomeRoute: HomeRoute,
+  ProjectsRoute: ProjectsRoute,
   ChatProjectIdRoute: ChatProjectIdRoute,
 }
 export const routeTree = rootRouteImport
