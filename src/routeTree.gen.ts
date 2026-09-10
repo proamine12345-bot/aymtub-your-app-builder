@@ -15,6 +15,7 @@ import { Route as FuthunRouteImport } from './routes/futhun'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ChatProjectIdRouteImport } from './routes/chat.$projectId'
+import { Route as FuthunProjectIdRouteImport } from './routes/futhun.$projectId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,38 +47,59 @@ const ChatProjectIdRoute = ChatProjectIdRouteImport.update({
   path: '/chat/$projectId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FuthunProjectIdRoute = FuthunProjectIdRouteImport.update({
+  id: '/$projectId',
+  path: '/$projectId',
+  getParentRoute: () => FuthunRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/futhun': typeof FuthunRoute
+  '/futhun': typeof FuthunRouteWithChildren
   '/home': typeof HomeRoute
   '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
+  '/futhun/$projectId': typeof FuthunProjectIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/futhun': typeof FuthunRoute
+  '/futhun': typeof FuthunRouteWithChildren
   '/home': typeof HomeRoute
   '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
+  '/futhun/$projectId': typeof FuthunProjectIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/futhun': typeof FuthunRoute
+  '/futhun': typeof FuthunRouteWithChildren
   '/home': typeof HomeRoute
   '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
+  '/futhun/$projectId': typeof FuthunProjectIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/futhun' | '/home' | '/projects' | '/chat/$projectId'
+    | '/'
+    | '/auth'
+    | '/futhun'
+    | '/home'
+    | '/projects'
+    | '/chat/$projectId'
+    | '/futhun/$projectId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/futhun' | '/home' | '/projects' | '/chat/$projectId'
+  to:
+    | '/'
+    | '/auth'
+    | '/futhun'
+    | '/home'
+    | '/projects'
+    | '/chat/$projectId'
+    | '/futhun/$projectId'
   id:
     | '__root__'
     | '/'
@@ -86,12 +108,13 @@ export interface FileRouteTypes {
     | '/home'
     | '/projects'
     | '/chat/$projectId'
+    | '/futhun/$projectId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
-  FuthunRoute: typeof FuthunRoute
+  FuthunRoute: typeof FuthunRouteWithChildren
   HomeRoute: typeof HomeRoute
   ProjectsRoute: typeof ProjectsRoute
   ChatProjectIdRoute: typeof ChatProjectIdRoute
@@ -141,13 +164,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChatProjectIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/futhun/$projectId': {
+      id: '/futhun/$projectId'
+      path: '/$projectId'
+      fullPath: '/futhun/$projectId'
+      preLoaderRoute: typeof FuthunProjectIdRouteImport
+      parentRoute: typeof FuthunRoute
+    }
   }
 }
+
+interface FuthunRouteChildren {
+  FuthunProjectIdRoute: typeof FuthunProjectIdRoute
+}
+
+const FuthunRouteChildren: FuthunRouteChildren = {
+  FuthunProjectIdRoute: FuthunProjectIdRoute,
+}
+
+const FuthunRouteWithChildren =
+  FuthunRoute._addFileChildren(FuthunRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
-  FuthunRoute: FuthunRoute,
+  FuthunRoute: FuthunRouteWithChildren,
   HomeRoute: HomeRoute,
   ProjectsRoute: ProjectsRoute,
   ChatProjectIdRoute: ChatProjectIdRoute,
