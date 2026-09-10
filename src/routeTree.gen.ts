@@ -16,6 +16,7 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ChatProjectIdRouteImport } from './routes/chat.$projectId'
 import { Route as FuthunProjectIdRouteImport } from './routes/futhun.$projectId'
+import { Route as PreviewProjectIdRouteImport } from './routes/preview.$projectId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,11 @@ const FuthunProjectIdRoute = FuthunProjectIdRouteImport.update({
   path: '/$projectId',
   getParentRoute: () => FuthunRoute,
 } as any)
+const PreviewProjectIdRoute = PreviewProjectIdRouteImport.update({
+  id: '/preview/$projectId',
+  path: '/preview/$projectId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
   '/futhun/$projectId': typeof FuthunProjectIdRoute
+  '/preview/$projectId': typeof PreviewProjectIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
   '/futhun/$projectId': typeof FuthunProjectIdRoute
+  '/preview/$projectId': typeof PreviewProjectIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRoute
   '/chat/$projectId': typeof ChatProjectIdRoute
   '/futhun/$projectId': typeof FuthunProjectIdRoute
+  '/preview/$projectId': typeof PreviewProjectIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/chat/$projectId'
     | '/futhun/$projectId'
+    | '/preview/$projectId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/chat/$projectId'
     | '/futhun/$projectId'
+    | '/preview/$projectId'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/chat/$projectId'
     | '/futhun/$projectId'
+    | '/preview/$projectId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRoute
   ProjectsRoute: typeof ProjectsRoute
   ChatProjectIdRoute: typeof ChatProjectIdRoute
+  PreviewProjectIdRoute: typeof PreviewProjectIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -171,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FuthunProjectIdRouteImport
       parentRoute: typeof FuthunRoute
     }
+    '/preview/$projectId': {
+      id: '/preview/$projectId'
+      path: '/preview/$projectId'
+      fullPath: '/preview/$projectId'
+      preLoaderRoute: typeof PreviewProjectIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -192,6 +212,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRoute,
   ProjectsRoute: ProjectsRoute,
   ChatProjectIdRoute: ChatProjectIdRoute,
+  PreviewProjectIdRoute: PreviewProjectIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
