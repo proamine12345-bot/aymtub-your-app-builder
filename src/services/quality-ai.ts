@@ -92,7 +92,8 @@ export const mockQualityAi: QualityAiService = {
       projectName: existingProjectName ?? pickName(prompt, isGame ? "مشروع لعبة" : "مشروع تطبيق"),
       projectType: isGame ? "game" : "app",
       steps,
-      etaSeconds: isGame ? 300 : 240,
+      // DEV_MODE: matches the mock build duration; a real build server reports its own ETA.
+      etaSeconds: isGame ? 18 : 14,
       isEdit,
     };
   },

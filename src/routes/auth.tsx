@@ -21,6 +21,17 @@ export const Route = createFileRoute("/auth")({
 
 type Mode = "choose" | "signin" | "signup";
 
+function arabicAuthError(message: string): string {
+  const m = message.toLowerCase();
+  if (m.includes("weak") || m.includes("pwned") || m.includes("known to be weak"))
+    return "كلمة المرور ضعيفة أو معروفة. اختر كلمة مرور أقوى.";
+  if (m.includes("already registered") || m.includes("already been registered"))
+    return "هذا البريد مسجّل بالفعل. سجّل الدخول بدلًا من ذلك.";
+  if (m.includes("password") && m.includes("6")) return "كلمة المرور يجب أن تكون 6 أحرف على الأقل.";
+  if (m.includes("email") && m.includes("invalid")) return "البريد الإلكتروني غير صحيح.";
+  return "تعذّر إكمال العملية. حاول مرة أخرى.";
+}
+
 function AuthScreen() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -63,7 +74,7 @@ function AuthScreen() {
       });
       setBusy(false);
       if (signUpError) {
-        setError(signUpError.message);
+        setError(arabicAuthError(signUpError.message));
         return;
       }
       setNotice("تم إنشاء الحساب. تحقق من بريدك لتأكيد الحساب ثم سجّل الدخول.");

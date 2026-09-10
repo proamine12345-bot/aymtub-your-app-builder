@@ -206,7 +206,12 @@ function Bubble({ message }: { message: ChatMessage }) {
           ))}
           <div className="flex items-center justify-between pt-1.5 font-mono text-[10.5px] text-muted">
             <span>المستغرق {formatClock(meta.elapsedSeconds ?? 0)}</span>
-            <span>المتوقع ≈ {Math.round((meta.etaSeconds ?? 0) / 60)} دقيقة</span>
+            <span>
+              المتوقع ≈{" "}
+              {(meta.etaSeconds ?? 0) < 60
+                ? `${meta.etaSeconds ?? 0} ثانية`
+                : `${Math.round((meta.etaSeconds ?? 0) / 60)} دقيقة`}
+            </span>
           </div>
         </div>
       ) : null}

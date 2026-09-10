@@ -81,7 +81,7 @@ export async function runPipeline(opts: {
         await chatService.add(
           project.id,
           "assistant",
-          isEdit ? "تم تحديث المشروع." : "اكتمل إنشاء المشروع بنجاح 🎉",
+          isEdit ? "تم تحديث المشروع." : "اكتمل إنشاء المشروع بنجاح.",
           {
             kind: "result",
             version,
@@ -90,7 +90,7 @@ export async function runPipeline(opts: {
         );
         await notificationService.add({
           projectId: project.id,
-          title: "اكتمل مشروعك 🎉",
+          title: "اكتمل مشروعك",
           body: `${project.name} — الإصدار ${version} جاهز للمعاينة والتنزيل.`,
         });
         await onChange();
