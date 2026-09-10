@@ -76,7 +76,7 @@ export async function runPipeline(opts: {
           version,
           changes: isEdit ? prompt : plan.steps.join(" · "),
           build_status: "SUCCEEDED",
-          apk_size_mb: update.apkSizeMb,
+          apk_size_mb: update.apkSizeMb ?? 0,
         });
         await chatService.add(
           project.id,
@@ -85,7 +85,7 @@ export async function runPipeline(opts: {
           {
             kind: "result",
             version,
-            apkSizeMb: update.apkSizeMb,
+            apkSizeMb: update.apkSizeMb ?? 0,
           },
         );
         await notificationService.add({
