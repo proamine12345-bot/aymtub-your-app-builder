@@ -1,12 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
-const NAV = [
+const NAV: { to: "/home" | "/projects" | "/futhun" | "/settings"; label: string; glyph: string; mono?: boolean }[] = [
   { to: "/home", label: "الرئيسية", glyph: "◫" },
   { to: "/projects", label: "المشاريع", glyph: "▤" },
   { to: "/futhun", label: "Futhun", glyph: "▣", mono: true },
   { to: "/settings", label: "الإعدادات", glyph: "⚙" },
-] as const;
+];
+
 
 export function AppHeader({ right }: { right?: ReactNode }) {
   return (
